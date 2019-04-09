@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  bitbucket:
+    image: cptactionhank/atlassian-bamboo
+    container_name: bamboo
+    hostname: bamboo
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - bamboodata:/var/atlassian/bamboo
+    ports:
+      - '8085:8085'
+    labels:
+      com.blacklabelops.description: "Atlassian Bitbucket"
+      com.blacklabelops.service: "Bitbucket"
+
+volumes:
+  bamboodata:
+    external: true
+
+networks:
+  atlassiannet:
+    external:
+      name: network-atlassian
