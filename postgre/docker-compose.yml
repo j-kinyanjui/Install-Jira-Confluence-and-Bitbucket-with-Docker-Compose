@@ -10,7 +10,7 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - /var/postgre_atlassian/data:/var/lib/postgresql/data
+      - postgre_atlassian:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:
@@ -28,6 +28,10 @@ services:
     labels:
       com.blacklabelops.description: "Postgre Atlassian Database Server"
       com.blacklabelops.service: "postgre_atlassian"
+
+volumes:
+  postgre_atlassian:
+    external: true
 
 networks:
   atlassiannet:
