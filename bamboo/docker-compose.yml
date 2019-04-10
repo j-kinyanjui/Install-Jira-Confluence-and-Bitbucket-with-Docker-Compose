@@ -9,7 +9,9 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - bamboodata:/var/atlassian/bamboo
+      - bamboodata:/var/atlassian/bamboo/
+      - bamboodata:/opt/atlassian/bamboo/
+      - bamboodata:/opt/atlassian/bamboo/logs
     ports:
       - '8085:8085'
     labels:
