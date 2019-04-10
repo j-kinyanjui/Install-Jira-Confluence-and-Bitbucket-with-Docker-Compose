@@ -10,7 +10,7 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - postgre_atlassian:/var/lib/postgresql/data
+      - postgre_atlassian:/var/lib/postgresql
     ports:
       - '5432:5432'
     environment:
