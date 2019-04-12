@@ -9,16 +9,18 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - confluencedata:/var/atlassian/confluence
+      - confluence_var:/var/atlassian/confluence/
+      - confluence_opt/:/opt/atlassian/confluence/
+      - confluence_logs/:/opt/atlassian/confluence/logs
     ports:
-      - '8093:8090'
-      - '8091:8091'
-    labels:
-      com.blacklabelops.description: "Atlassian Confluence"
-      com.blacklabelops.service: "confluence"
+      - '8090:8090'
 
 volumes:
-  confluencedata:
+  confluence_var:
+    external: true
+  confluence_opt:
+    external: true
+  confluence_logs:
     external: true
 
 networks:
