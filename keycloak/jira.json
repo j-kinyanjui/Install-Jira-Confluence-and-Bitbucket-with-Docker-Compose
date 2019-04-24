@@ -1,0 +1,109 @@
+{
+  "realm": "atlassian-jira",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "requiredCredentials": [
+    "password"
+  ],
+  "users": [
+    {
+      "username" : "admin",
+      "enabled": true,
+      "email" : "admin@mail.com",
+      "firstName": "Admin",
+      "lastName": "Istrator",
+      "credentials": [
+        {
+          "type" : "password",
+          "value" : "admin"
+        }
+      ],
+      "clientRoles": {
+        "jira": ["jira-administrators", "jira-software-users", "jira-servicedesk-users"]
+      }
+    },
+    {
+      "username" : "user",
+      "enabled": true,
+      "email" : "user@mail.com",
+      "firstName": "User",
+      "lastName": "One",
+      "credentials": [
+        {
+          "type" : "password",
+          "value" : "user"
+        }
+      ],
+      "clientRoles": {
+        "jira": ["jira-software-users", "jira-servicedesk-users"]
+      }
+    },
+    {
+      "username" : "customer",
+      "enabled": true,
+      "email" : "customer@mail.com",
+      "firstName": "Customer",
+      "lastName": "One",
+      "credentials": [
+        {
+          "type" : "password",
+          "value" : "customer"
+        }
+      ],
+      "clientRoles": {
+        "jira": []
+      }
+    }
+  ],
+  "roles" : {
+    "client": {
+      "jira": [
+        {
+          "name": "jira-software-users",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "jira-servicedesk-users",
+          "composite": false,
+          "clientRole": true
+        },
+        {
+          "name": "jira-administrators",
+          "composite": false,
+          "clientRole": true
+        }
+      ]
+    }
+  },
+  "clients": [
+    {
+      "clientId": "jira",
+      "rootUrl": "http://localhost:8085/jira",
+      "adminUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "jira-client-secret",
+      "redirectUris": [
+        "http://localhost:8085/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8085"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1
+    }
+  ]
+}

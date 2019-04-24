@@ -1,0 +1,30 @@
+version: '3'
+services:
+   keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      hostname: keycloak
+      restart: unless-stopped
+      networks:
+       - atlassiannet
+      volumes:
+       - keycloak:/tmp/realms
+      environment:
+       - DB_VENDOR=POSTGRES
+       - DB_ADDR=postgre_atlassian
+       - DB_DATABASE=keycloakdb
+       - DB_USER=keycloakdbuser
+       - DB_PASSWORD=Jiaia921843kfaHWy
+       - KEYCLOAK_USER=admin
+       - KEYCLOAK_PASSWORD=admin
+      ports:
+       - 8080:8080
+
+volumes:
+  keycloak:
+    external: true
+
+networks:
+  atlassiannet:
+    external:
+      name: network-atlassian
