@@ -13,7 +13,7 @@ services:
       - bamboodata:/opt/atlassian/bamboo/
       - bamboodata:/opt/atlassian/bamboo/logs
     ports:
-      - '8085:8085'
+      - '8086:8085'
       - '8443:8443'
     labels:
       com.blacklabelops.description: "Atlassian Bitbucket"
