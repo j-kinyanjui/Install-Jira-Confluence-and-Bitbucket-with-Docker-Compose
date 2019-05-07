@@ -15,7 +15,7 @@ services:
       - jira_opt:/opt/atlassian/jira
       - jira_logs:/opt/atlassian/jira/logs
     ports:
-      - '8085:8080'
+      - '8095:8080'
     logging:
       # limit logs retained on host to 25MB
       driver: "json-file"
