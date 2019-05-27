@@ -52,10 +52,6 @@ services:
     networks:
       - atlassiannet
 
-volumes:
-  ldap_data:
-    external: true
-
 networks:
   atlassiannet:
     external:
