@@ -1,0 +1,156 @@
+version: '3'
+
+services:
+  bamboo:
+    image: cptactionhank/atlassian-bamboo
+    container_name: bamboo
+    hostname: bamboo
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - bamboodata:/var/atlassian/bamboo/
+      - bamboodata:/opt/atlassian/bamboo/
+      - bamboodata:/opt/atlassian/bamboo/logs
+    ports:
+      - '8086:8085'
+      - '8443:8443'
+    labels:
+      com.blacklabelops.description: "Atlassian Bitbucket"
+      com.blacklabelops.service: "Bitbucket"
+
+  bitbucket:
+    image: blacklabelops/bitbucket
+    container_name: bitbucket
+    hostname: bitbucket
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - bitbucketdata:/var/atlassian/bitbucket
+    ports:
+      - '7990:7990'
+    environment:
+      - 'CATALINA_OPTS= -Xms2g -Xmx3g'
+      - 'JVM_MINIMUM_MEMORY=2g'
+      - 'JVM_MAXIMUM_MEMORY=3g'
+      - 'BITBUCKET_PROXY_NAME='
+      - 'BITBUCKET_PROXY_PORT='
+      - 'BITBUCKET_PROXY_SCHEME='
+      - 'BITBUCKET_DELAYED_START='
+      - 'DOCKER_WAIT_HOST=postgre_atlassian'
+      - 'DOCKER_WAIT_PORT=5432'
+      - 'BITBUCKET_EMBEDDED_SEARCH=true'
+    labels:
+      com.blacklabelops.description: "Atlassian Bitbucket"
+      com.blacklabelops.service: "Bitbucket"
+
+  confluence:
+    image: cptactionhank/atlassian-confluence
+    container_name: confluence
+    hostname: confluence
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - confluence_var:/var/atlassian/confluence/
+      - confluence_opt/:/opt/atlassian/confluence/
+      - confluence_logs/:/opt/atlassian/confluence/logs
+    ports:
+      - '8090:8090'
+
+  jira:
+    #depends_on:
+    #  - postgre_atlassian
+    image: cptactionhank/atlassian-jira
+    container_name: jira
+    hostname: jira
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - jira_var:/var/atlassian/jira
+      - jira_opt:/opt/atlassian/jira
+      - jira_logs:/opt/atlassian/jira/logs
+    ports:
+      - '8085:8080'
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+
+  keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      hostname: keycloak
+      restart: unless-stopped
+      networks:
+       - atlassiannet
+      volumes:
+       - keycloak:/tmp/realms
+      environment:
+       - DB_VENDOR=POSTGRES
+       - DB_ADDR=postgre_atlassian
+       - DB_DATABASE=keycloakdb
+       - DB_USER=keycloakdbuser
+       - DB_PASSWORD=Jiaia921843kfaHWy
+       - KEYCLOAK_USER=admin
+       - KEYCLOAK_PASSWORD=admin
+      ports:
+       - 8080:8080
+
+  postgre_atlassian:
+    image: blacklabelops/postgres
+    container_name: postgre_atlassian
+    hostname: postgre_atlassian
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - postgre_atlassian:/var/lib/postgresql
+    ports:
+      - '5432:5432'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=QksuYejx_speI93'
+      - 'POSTGRES_ENCODING=UNICODE'
+      - 'POSTGRES_COLLATE=C'
+      - 'POSTGRES_COLLATE_TYPE=C'
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+    labels:
+      com.blacklabelops.description: "Postgre Atlassian Database Server"
+      com.blacklabelops.service: "postgre_atlassian"
+
+volumes:
+  bitbucketdata:
+    external: true
+  bamboodata:
+    external: true
+  confluence_var:
+    external: true
+  confluence_opt:
+    external: true
+  confluence_logs:
+    external: true
+  jira_var:
+    external: true
+  jira_opt:
+    external: true
+  jira_logs:
+    external: true
+  keycloak:
+    external: true
+  postgre_atlassian:
+    external: true
+
+networks:
+  atlassiannet:
+    external:
+      name: network-atlassian
