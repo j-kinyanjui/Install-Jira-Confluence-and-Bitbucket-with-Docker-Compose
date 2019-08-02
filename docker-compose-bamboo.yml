@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  bamboo:
+    image: cptactionhank/atlassian-bamboo
+    container_name: bamboo
+    hostname: bamboo
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - bamboodata:/var/atlassian/bamboo/
+      - bamboodata:/opt/atlassian/bamboo/
+      - bamboodata:/opt/atlassian/bamboo/logs
+    ports:
+      - '8086:8085'
+      - '8443:8443'
+    labels:
+      com.blacklabelops.description: "Atlassian Bitbucket"
+      com.blacklabelops.service: "Bitbucket"
+
+  keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      hostname: keycloak
+      restart: unless-stopped
+      networks:
+       - atlassiannet
+      volumes:
+       - keycloak:/tmp/realms
+      environment:
+       - DB_VENDOR=POSTGRES
+       - DB_ADDR=postgre_atlassian
+       - DB_DATABASE=keycloakdb
+       - DB_USER=keycloakdbuser
+       - DB_PASSWORD=Jiaia921843kfaHWy
+       - KEYCLOAK_USER=admin
+       - KEYCLOAK_PASSWORD=admin
+      ports:
+       - 8080:8080
+
+  postgre_atlassian:
+    image: blacklabelops/postgres
+    container_name: postgre_atlassian
+    hostname: postgre_atlassian
+    restart: unless-stopped
+    networks:
+      - atlassiannet
+    volumes:
+      - postgre_atlassian:/var/lib/postgresql
+    ports:
+      - '5432:5432'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=QksuYejx_speI93'
+      - 'POSTGRES_ENCODING=UNICODE'
+      - 'POSTGRES_COLLATE=C'
+      - 'POSTGRES_COLLATE_TYPE=C'
+    logging:
+      # limit logs retained on host to 25MB
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "50"
+    labels:
+      com.blacklabelops.description: "Postgre Atlassian Database Server"
+      com.blacklabelops.service: "postgre_atlassian"
+
+volumes:
+  bamboodata:
+    external: true
+  keycloak:
+    external: true
+  postgre_atlassian:
+    external: true
+
+networks:
+  atlassiannet:
+    external:
+      name: network-atlassian
