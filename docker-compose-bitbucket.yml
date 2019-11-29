@@ -2,7 +2,7 @@ version: '3'
 
 services:
   bitbucket:
-    image: jkinyanjui/atlassian-bitbucket
+    image: cptactionhank/atlassian-bitbucket
     container_name: bitbucket
     hostname: bitbucket
     restart: unless-stopped
@@ -16,16 +16,9 @@ services:
       - 'CATALINA_OPTS= -Xms2g -Xmx3g'
       - 'JVM_MINIMUM_MEMORY=2g'
       - 'JVM_MAXIMUM_MEMORY=3g'
-      - 'BITBUCKET_PROXY_NAME='
-      - 'BITBUCKET_PROXY_PORT='
-      - 'BITBUCKET_PROXY_SCHEME='
-      - 'BITBUCKET_DELAYED_START='
       - 'DOCKER_WAIT_HOST=postgre_atlassian'
       - 'DOCKER_WAIT_PORT=5432'
       - 'BITBUCKET_EMBEDDED_SEARCH=true'
-    labels:
-      com.blacklabelops.description: "Atlassian Bitbucket"
-      com.blacklabelops.service: "Bitbucket"
 
   keycloak:
       image: jboss/keycloak:latest
@@ -38,7 +31,7 @@ services:
        - keycloak:/tmp/realms
       environment:
        - DB_VENDOR=POSTGRES
-       - DB_ADDR=postgre_atlassian
+       - DB_ADDR=postgres_atlassian
        - DB_DATABASE=keycloakdb
        - DB_USER=keycloakdbuser
        - DB_PASSWORD=Jiaia921843kfaHWy
@@ -47,15 +40,15 @@ services:
       ports:
        - 8080:8080
 
-  postgre_atlassian:
-    image: blacklabelops/postgres
-    container_name: postgre_atlassian
-    hostname: postgre_atlassian
+  postgres_atlassian:
+    image: postgres
+    container_name: postgres_atlassian
+    hostname: postgres_atlassian
     restart: unless-stopped
     networks:
       - atlassiannet
     volumes:
-      - postgre_atlassian:/var/lib/postgresql
+      - postgres_atlassian:/var/lib/postgresql
     ports:
       - '5432:5432'
     environment:
@@ -70,9 +63,6 @@ services:
       options:
         max-size: "500k"
         max-file: "50"
-    labels:
-      com.blacklabelops.description: "Postgre Atlassian Database Server"
-      com.blacklabelops.service: "postgre_atlassian"
 
 volumes:
   bitbucketdata:
