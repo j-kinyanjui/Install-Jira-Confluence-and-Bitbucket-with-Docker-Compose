@@ -1,20 +1,6 @@
 version: '3'
 
 services:
-  jira:
-    image: cptactionhank/atlassian-jira-software
-    container_name: jira
-    hostname: jira
-    restart: unless-stopped
-    networks:
-      - atlassiannet
-    volumes:
-      - jira_soft_var:/var/atlassian/jira
-      - jira_soft_opt:/opt/atlassian/jira
-      - jira_soft_logs:/opt/atlassian/jira/logs
-    ports:
-      - '8085:8080'
-
   keycloak:
       image: jboss/keycloak:latest
       container_name: keycloak
@@ -26,7 +12,7 @@ services:
        - keycloak:/tmp/realms
       environment:
        - DB_VENDOR=POSTGRES
-       - DB_ADDR=postgre_atlassian
+       - DB_ADDR=postgres_atlassian
        - DB_DATABASE=keycloakdb
        - DB_USER=keycloakdbuser
        - DB_PASSWORD=Jiaia921843kfaHWy
@@ -43,7 +29,7 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - postgres_atlassian:/var/lib/postgresql
+      - postgres_atlassian: /var/lib/postgresql/data 
     ports:
       - '5432:5432'
     environment:
@@ -60,12 +46,6 @@ services:
         max-file: "50"
 
 volumes:
-  jira_soft_var:
-    external: true
-  jira_soft_opt:
-    external: true
-  jira_soft_logs:
-    external: true
   keycloak:
     external: true
   postgres_atlassian:

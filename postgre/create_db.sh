@@ -33,6 +33,7 @@ EOSQL
 }
 
 create_user_and_database "jiradb" "yourjirapwd" "y"
+create_user_and_database "jirasoftdb" "yourjirasoftpwd" "y"
 create_user_and_database "confdb" "yourconfpwd" "n"
 create_user_and_database "bitbucketdb" "yourbitbucketpwd" "n"
 create_user_and_database "bitbucketdb_tmp" "yourbitbucketpwd" "n"
