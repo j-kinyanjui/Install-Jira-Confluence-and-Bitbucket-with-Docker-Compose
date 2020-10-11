@@ -16,7 +16,7 @@ services:
       - 'CATALINA_OPTS= -Xms2g -Xmx3g'
       - 'JVM_MINIMUM_MEMORY=2g'
       - 'JVM_MAXIMUM_MEMORY=3g'
-      - 'DOCKER_WAIT_HOST=postgre_atlassian'
+      - 'DOCKER_WAIT_HOST=postgres_atlassian'
       - 'DOCKER_WAIT_PORT=5432'
       - 'BITBUCKET_EMBEDDED_SEARCH=true'
 
@@ -69,8 +69,10 @@ volumes:
     external: true
   keycloak:
     external: true
-  postgre_atlassian:
+  postgres_atlassian:
     external: true
+  apereo-cas:
+    external: true  
 
 networks:
   atlassiannet:

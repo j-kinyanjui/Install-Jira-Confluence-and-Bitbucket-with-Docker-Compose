@@ -26,7 +26,7 @@ services:
        - keycloak:/tmp/realms
       environment:
        - DB_VENDOR=POSTGRES
-       - DB_ADDR=postgre_atlassian
+       - DB_ADDR=postgres_atlassian
        - DB_DATABASE=keycloakdb
        - DB_USER=keycloakdbuser
        - DB_PASSWORD=Jiaia921843kfaHWy
@@ -43,7 +43,7 @@ services:
     networks:
       - atlassiannet
     volumes:
-      - postgres_atlassian:/var/lib/postgresql
+      - postgres_atlassian:/var/lib/postgresql/data
     ports:
       - '5432:5432'
     environment:
