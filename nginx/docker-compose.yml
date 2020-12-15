@@ -2,28 +2,41 @@ version: '3'
 
 services:
   nginx:
-    image: 'blacklabelops/nginx'
+    image: blacklabelops/nginx
     container_name: nginx
     hostname: nginx
     restart: unless-stopped
     networks:
       - atlassiannet
     environment:
-      - 'REVERSE_PROXY_BUFFERING='
-      - 'REVERSE_PROXY_BUFFERS='
-      - 'REVERSE_PROXY_BUFFERS_SIZE='
+      - SERVER1SERVER_NAME=keycloak.nesski.com
+      - SERVER1REVERSE_PROXY_LOCATION1=/
+      - SERVER1REVERSE_PROXY_PASS1=http://keycloak:8080
+      - SERVER1HTTPS_ENABLED=true
+      - SERVER1CERTIFICATE_FILE=/etc/ssl/private/keycloak/keycloak.nesski.com.crt
+      - SERVER1CERTIFICATE_KEY=/etc/ssl/private/keycloak/keycloak.nesski.com.key
+ 
+      - SERVER2SERVER_NAME=.confluence.nesski.com
+      - SERVER2REVERSE_PROXY_LOCATION1=/
+      - SERVER2REVERSE_PROXY_PASS1=http://confluence:8090
+      - SERVER2HTTPS_ENABLED=true
+      - SERVER2CERTIFICATE_FILE=/etc/ssl/private/confluence/confluence.nesski.com.crt
+      - SERVER2CERTIFICATE_KEY=/etc/ssl/private/confluence/confluence.nesski.com.key
 
-      - 'SERVER1SERVER_NAME=confluence.nesski.com'
-      - 'SERVER1REVERSE_PROXY_LOCATION1=/'
-      - 'SERVER1REVERSE_PROXY_PASS1=http://confluence:8090'
+      # - SERVER3SERVER_NAME=jira.nesski.com
+      # - SERVER3REVERSE_PROXY_LOCATION1=/
+      # - SERVER3REVERSE_PROXY_PASS1=http://jira:8080
+      # - SERVER3HTTPS_ENABLED=true
+      # - SERVER3CERTIFICATE_FILE=/etc/ssl/private/jira/jira.nesski.com.crt
+      # - SERVER3CERTIFICATE_KEY=/etc/ssl/private/jira/jira.nesski.com.key
     ports:
-      - '80:80'
-      - '443:443'
+      - 80:80
+      - 443:443
     volumes:
-      - nginxdata:/etc/nginx
       - nginxdata:/home/nginx
       - nginxwww:/var/lib/nginx/html
       - nginxdata:/var/log/nginx
+      - /Users/nesski/Documents/repos/joseph/Atlassian-Docker-Compose/nginx/certs:/etc/ssl/private
 
 volumes:
   nginxdata:

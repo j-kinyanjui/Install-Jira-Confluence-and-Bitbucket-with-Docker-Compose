@@ -39,6 +39,16 @@ $ nginx -V
 ~~~~
 
 
+## Self-signed Certs
+
+[Stackoverflow](https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate?page=1&tab=votes#tab-top)
+
+ * run `ca.sh` to create the CA.pem
+ * commment out the creation of CA.pem if you want to re-use the certs
+ * modify the NAME of the domanain you want to create certs for
+ * use the created *** *.key*** and *** *.crt*** with nginx for the respective server
+ * import the CA.pem to keychain or browser if necessary
+
 ## Install PostgreSQL
 
 1 . Compose and run docker postgre
