@@ -16,7 +16,7 @@ services:
       - SERVER1CERTIFICATE_FILE=/etc/ssl/private/keycloak/keycloak.nesski.com.crt
       - SERVER1CERTIFICATE_KEY=/etc/ssl/private/keycloak/keycloak.nesski.com.key
  
-      - SERVER2SERVER_NAME=.confluence.nesski.com
+      - SERVER2SERVER_NAME=confluence.nesski.com
       - SERVER2REVERSE_PROXY_LOCATION1=/
       - SERVER2REVERSE_PROXY_PASS1=http://confluence:8090
       - SERVER2HTTPS_ENABLED=true

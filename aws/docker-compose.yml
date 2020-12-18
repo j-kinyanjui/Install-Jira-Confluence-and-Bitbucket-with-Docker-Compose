@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  keycloak:
+      image: jboss/keycloak:latest
+      container_name: keycloak
+      volumes:
+       - keycloak:/tmp/realms
+      environment:
+       - DB_VENDOR=H2
+       - KEYCLOAK_USER=admin
+       - KEYCLOAK_PASSWORD=admin
+       - PROXY_ADDRESS_FORWARDING=true
+      ports:
+       - 8080:8080
+      logging:
+        driver: awslogs
+        options: 
+          awslogs-group: ec2-keycloak
+          awslogs-region: eu-central-1
+          awslogs-stream-prefix: keycloak
+
+volumes:
+  keycloak:
+
+networks:
+  atlassiannet:

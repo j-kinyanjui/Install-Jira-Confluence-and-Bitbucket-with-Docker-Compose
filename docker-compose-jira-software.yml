@@ -2,7 +2,7 @@ version: '3'
 
 services:
   jira:
-    image: cptactionhank/atlassian-jira-software
+    image: cptactionhank/atlassian-jira-software:8.12.3
     container_name: jira
     hostname: jira
     restart: unless-stopped
