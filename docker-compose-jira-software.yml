@@ -12,28 +12,9 @@ services:
       - jira_soft_var:/var/atlassian/jira
       - jira_soft_opt:/opt/atlassian/jira
       - jira_soft_logs:/opt/atlassian/jira/logs
+      - jira_soft_certs/:/etc/ssl/certs/java/
     ports:
       - '8085:8080'
-
-  keycloak:
-      image: jboss/keycloak:latest
-      container_name: keycloak
-      hostname: keycloak
-      restart: unless-stopped
-      networks:
-       - atlassiannet
-      volumes:
-       - keycloak:/tmp/realms
-      environment:
-       - DB_VENDOR=POSTGRES
-       - DB_ADDR=postgres_atlassian
-       - DB_DATABASE=keycloakdb
-       - DB_USER=keycloakdbuser
-       - DB_PASSWORD=Jiaia921843kfaHWy
-       - KEYCLOAK_USER=admin
-       - KEYCLOAK_PASSWORD=admin
-      ports:
-       - 8080:8080
 
   postgres_atlassian:
     image: postgres
@@ -65,6 +46,8 @@ volumes:
   jira_soft_opt:
     external: true
   jira_soft_logs:
+    external: true
+  jira_soft_certs:
     external: true
   keycloak:
     external: true

@@ -12,29 +12,9 @@ services:
       - confluence_var:/var/atlassian/confluence/
       - confluence_opt/:/opt/atlassian/confluence/
       - confluence_logs/:/opt/atlassian/confluence/logs
+      - confluence_certs/:/etc/ssl/certs/java/
     ports:
       - '8090:8090'
-
-  keycloak:
-      image: jboss/keycloak:latest
-      container_name: keycloak
-      hostname: keycloak
-      restart: unless-stopped
-      networks:
-       - atlassiannet
-      volumes:
-       - keycloak:/tmp/realms
-      environment:
-       - DB_VENDOR=POSTGRES
-       - DB_ADDR=postgres_atlassian
-       - DB_DATABASE=keycloakdb
-       - DB_USER=keycloakdbuser
-       - DB_PASSWORD=Jiaia921843kfaHWy
-       - KEYCLOAK_USER=admin
-       - KEYCLOAK_PASSWORD=admin
-       - PROXY_ADDRESS_FORWARDING=true
-      ports:
-       - 8080:8080
 
   postgres_atlassian:
     image: postgres
@@ -66,6 +46,8 @@ volumes:
   confluence_opt:
     external: true
   confluence_logs:
+    external: true
+  confluence_certs:
     external: true
   keycloak:
     external: true
