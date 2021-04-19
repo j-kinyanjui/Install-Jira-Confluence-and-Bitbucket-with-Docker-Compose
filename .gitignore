@@ -3,4 +3,6 @@ config
 data
 .DS_Store
 *.pem
-certificate_authority/*
+certificate_authority/*.pem
+certificate_authority/*.key
+certificate_authority/*.srl
